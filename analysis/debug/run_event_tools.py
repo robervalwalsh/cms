@@ -15,7 +15,7 @@ gROOT.Reset()
 # a table consisting of run : [list of events] is created and
 # dumped in the output file
 
-def EventTable(fileListFile, outputFile, triggerBit, entries):
+def EventTable(fileListFile, bits, entries):
 
   ## Open files with ntuples
   fileList = TFileCollection("dum","",fileListFile)
@@ -25,38 +25,36 @@ def EventTable(fileListFile, outputFile, triggerBit, entries):
   if entries < 0 :
     nentries = chain.GetEntries()
 
-  eventTable = {}
-  
-#  print "Processing", nentries, "events"
+  # Output files according to trigger bits
+  outputs = ["events_bit"+str(bit)+"_"+fileListFile for bit in bits]
+
+  nbits = len(bits)
+  eventTables = [{}]
+  for i in xrange(nbits-1): # create list of dictionaries with different id's for each entry of the list
+    eventTables += [{}]
   
   for i in xrange(nentries):
   
-#    if i % 100000 == 0 and i > 0 : print i,"events processed"
-    
     chain.GetEntry(i)
 
-    # check if trigger trigger was accepted. todo: pass the trigger bit as parameter
-    isMyTrigger = False
-    if chain.trgAccept & (1<<triggerBit): isMyTrigger = True
-    
-    if not isMyTrigger: continue 
-    
     run = chain.Run
     event = chain.Event
     
-    if not eventTable.get(run):
-      eventTable[run] = [event]
-    else:
-#      if eventTable[run].count(event) == 0: # avoid duplicates for the moment
-        eventTable[run] += [event]
+    # check if trigger was accepted
+    for i in xrange(nbits):
+      if chain.trgAccept & (1<<bits[i]):
+        if not eventTables[i].get(run):
+          eventTables[i][run] = [event]
+        else:
+#          if eventTable[run].count(event) == 0: # avoid duplicates for the moment
+          eventTables[i][run] += [event]
     
   # end nentries loop
-  if entries > 0 :
-    OutputEventTable(eventTable,outputFile)
+  if entries < 0 :  # for tests, entries > 0, so do not output to file
+    for i in xrange(nbits):
+      OutputEventTable(eventTables[i],outputs[i])
   
-#  print eventTable
-  
-  return eventTable
+#  return eventTable
   
 # =======================================================
 
