@@ -56,9 +56,10 @@ Candidate::~Candidate()
 // member functions
 //
 
-bool Candidate::matchTo(const std::vector<Candidate> * cands, const float & deltaR)
+bool Candidate::matchTo(const Collection<Object> * collection, const float & deltaR)
 {
-  const std::string name = cands->name(); 
+  name = collection->name();
+  const std::vector<Candidate> cands = collection->vectorCandidates();
   this -> matched_[name] = NULL;
    if ( ! cands )
    {

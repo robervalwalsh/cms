@@ -57,14 +57,16 @@ namespace analysis {
            Candidate candidate();
 
            // made below virtual as this may be different for MET, or vertex
-           virtual bool matchTo(const std::vector<Candidate> * cands, const float & deltaR = 0.3);
-           const Candidate * matched(const std::string & name);
+           // virtual bool matchTo(const std::vector<Candidate> * cands, const float & deltaR = 0.3);
+           virtual bool matchTo(const Collection<Object> * collection, const float & deltaR = 0.3);
+           const Candidate * matched();
 
          protected:
             // ----------member data ---------------------------
 
             //
             int   q_  ;
+            std::string name;
             TLorentzVector p4_;
 
             std::map<std::string, const Candidate * > matched_;
@@ -95,7 +97,7 @@ namespace analysis {
          return cand;
       }
 
-      inline const Candidate * Candidate::matched(const std::string & name) { return matched_[name]; }
+      inline const Candidate * Candidate::matched() { return matched_[name]; }
 
       // Sets
       inline void  Candidate::q(const float & q) { q_ = q; }
