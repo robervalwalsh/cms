@@ -40,7 +40,7 @@ int main(int argc, char * argv[])
       for ( int i = 0 ; i < jets.size() ; ++i )
       {
          Jet jet = jets.at(i);
-         jet.matchTo(vtxs;
+         jet.matchTo(vtxs.vectorCandidates(),"Vertices");
       }
 
 //       Collection<Muon> muons = analysis.collection<Muon>("Muons");
