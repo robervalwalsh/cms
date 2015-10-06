@@ -56,13 +56,19 @@ Candidate::~Candidate()
 // member functions
 //
 
+<<<<<<< HEAD
 bool Candidate::matchTo(const Collection<Object> * collection, const float & deltaR)
 {
   name = collection->name();
   const std::vector<Candidate> cands = collection->vectorCandidates();
   this -> matched_[name] = NULL;
+=======
+bool Candidate::matchTo(const std::vector<Candidate> * cands, const std::string & name, const float & deltaR)
+{
+>>>>>>> parent of fc52533... Check if collection::name work
    if ( ! cands )
    {
+      this -> matched_[name] = NULL;
       return false;
    }
 
@@ -77,9 +83,12 @@ bool Candidate::matchTo(const Collection<Object> * collection, const float & del
    if(minDeltaR < deltaR)
    {
      this->matched_[name]=cand;
+     if(minDeltaR < deltaR) std::cout << "R" << minDeltaR << std::endl;
      return true;
    }
+
    else {
+     this -> matched_[name] = NULL;
      return false;
    }
 }

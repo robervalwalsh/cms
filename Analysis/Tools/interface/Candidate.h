@@ -57,9 +57,14 @@ namespace analysis {
            Candidate candidate();
 
            // made below virtual as this may be different for MET, or vertex
+<<<<<<< HEAD
            // virtual bool matchTo(const std::vector<Candidate> * cands, const float & deltaR = 0.3);
            virtual bool matchTo(const Collection<Object> * collection, const float & deltaR = 0.3);
            const Candidate * matched();
+=======
+           virtual bool matchTo(const std::vector<Candidate> * cands, const std::string & name, const float & deltaR = 0.3);
+           const Candidate * matched(const std::string & name);
+>>>>>>> parent of fc52533... Check if collection::name work
 
          protected:
             // ----------member data ---------------------------
