@@ -56,11 +56,12 @@ Candidate::~Candidate()
 // member functions
 //
 
-bool Candidate::matchTo(const std::vector<Candidate> * cands, const std::string & name, const float & deltaR)
+bool Candidate::matchTo(const std::vector<Candidate> * cands, const float & deltaR)
 {
+  const std::string name = cands->name(); 
+  this -> matched_[name] = NULL;
    if ( ! cands )
    {
-      this -> matched_[name] = NULL;
       return false;
    }
 
@@ -75,12 +76,9 @@ bool Candidate::matchTo(const std::vector<Candidate> * cands, const std::string 
    if(minDeltaR < deltaR)
    {
      this->matched_[name]=cand;
-     if(minDeltaR < deltaR) std::cout << "R" << minDeltaR << std::endl;
      return true;
    }
-
    else {
-     this -> matched_[name] = NULL;
      return false;
    }
 }
